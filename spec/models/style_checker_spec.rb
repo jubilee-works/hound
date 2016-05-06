@@ -214,30 +214,13 @@ describe StyleChecker do
     end
 
     context "for a Haml file" do
-      context "with style violations" do
-        it "returns violations" do
-          commit_file = stub_commit_file("test.haml", "%div.message 123")
-          pull_request = stub_pull_request(commit_files: [commit_file])
-          message = "`%div.message` can be written as `.message` since `%div` "\
-            "is implicit"
+      it "creates violations" do
+        commit_file = stub_commit_file("test.haml", "%div.hello")
+        pull_request = stub_pull_request(commit_files: [commit_file])
 
-          violation_messages = pull_request_violations(pull_request)
+        violation_messages = pull_request_violations(pull_request)
 
-          expect(violation_messages).to include message
-        end
-      end
-
-      context "without style violations" do
-        it "returns no violations" do
-          commit_file = stub_commit_file("test.haml", ".foo 123")
-          pull_request = stub_pull_request(commit_files: [commit_file])
-
-          violation_messages = pull_request_violations(pull_request)
-
-          expect(violation_messages).not_to include(
-            "`%div.foo` can be written as `.foo` since `%div` is implicit",
-          )
-        end
+        expect(violation_messages).to be_empty
       end
     end
 
