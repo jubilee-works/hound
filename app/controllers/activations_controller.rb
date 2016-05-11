@@ -2,7 +2,7 @@ class ActivationsController < ApplicationController
   class FailedToActivate < StandardError; end
   class CannotActivatePaidRepo < StandardError; end
 
-  before_action :check_repo_plan
+  # before_action :check_repo_plan
 
   def create
     if activator.activate
